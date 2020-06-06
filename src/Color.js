@@ -583,7 +583,9 @@ export default class Color {
     } else {
       const mode = format.slice(0, 3);
       const obj = this.get({mode, abbreviated: true});
-      if (!format.includes('a')) {
+      if (format.includes('a')) {
+        obj.a = alpha;
+      } else {
         delete obj.a;
       }
       return colorToCss(obj);

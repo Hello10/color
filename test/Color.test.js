@@ -477,6 +477,8 @@ describe('Color', ()=> {
     it('should allow to override alpha', ()=> {
       const hex = color.css({format: 'hex', alpha: 0.5});
       Assert.equal(hex, '#00326280');
+      const rgba = color.css({alpha: 0.5});
+      Assert.equal(rgba, 'rgba(0,50,98,0.5)');
     });
 
     it('it should reject unsupported modes', ()=> {

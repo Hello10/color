@@ -1,6 +1,6 @@
 {
   "name": "@hello10/color",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Color stuff",
   "main": "dist/index.js",
   "source": "src/index.js",

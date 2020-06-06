@@ -2029,7 +2029,9 @@
           abbreviated: true
         });
 
-        if (!format.includes('a')) {
+        if (format.includes('a')) {
+          obj.a = alpha;
+        } else {
           delete obj.a;
         }
 
