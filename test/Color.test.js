@@ -254,6 +254,13 @@ describe('Color', ()=> {
       ]);
       Assert(bb2.equals(bb));
     });
+
+    it('should handle falsey arg', ()=> {
+      const gray = Color.fromRgb([55, 55, 55]);
+      Assert(!gray.equals(null));
+      Assert(!gray.equals(false));
+      Assert(!gray.equals(undefined));
+    });
   });
 
   describe('.get', ()=> {

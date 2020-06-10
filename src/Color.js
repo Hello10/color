@@ -206,6 +206,10 @@ export default class Color {
   }
 
   equals (color) {
+    if (!color) {
+      return false;
+    }
+
     if (color.constructor !== this.constructor) {
       color = this.constructor.create(color);
     }
