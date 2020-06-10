@@ -65,6 +65,7 @@ export default class Color {
 
     this.components = components.map((value, index)=> clips[index](value));
     this.mode = mode;
+    this.name = null;
   }
 
   static create (arg = {}) {
@@ -91,6 +92,10 @@ export default class Color {
 
     if (matchCssString(str)) {
       return this.fromCss(str);
+    }
+
+    if (this.nameExists(str)) {
+      return this.fromName(str);
     }
 
     throw new Error(`Invalid string format: ${str}`);
@@ -174,7 +179,9 @@ export default class Color {
       throw new Error(`No color named ${name}`);
     }
     const rgb = NamedColors[name];
-    return this.fromRgb(rgb);
+    const color = this.fromRgb(rgb);
+    color.name = name;
+    return color;
   }
 
   static names () {
@@ -196,6 +203,25 @@ export default class Color {
       mode: Mode.rgb,
       components
     });
+  }
+
+  equals (color) {
+    if (color.constructor !== this.constructor) {
+      color = this.constructor.create(color);
+    }
+
+    if (color.name && this.name && (color.name === this.name)) {
+      return true;
+    }
+
+    if ((color.mode === this.mode)) {
+      const components = color.components.slice(0, 3);
+      return components.every((component, i)=> {
+        return (component === this.components[i]);
+      });
+    }
+
+    return (color.hex6 === this.hex6);
   }
 
   shade (factor) {

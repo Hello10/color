@@ -6,7 +6,7 @@ const {
   upto
 } = require('@hello10/util');
 
-const Color = require('../dist/index').default;
+const Color = require('../dist/index');
 
 function assertValidRgb (color) {
   Assert.equal(color.mode, 'rgb');
@@ -228,6 +228,31 @@ describe('Color', ()=> {
         const color = Color.random();
         assertValidRgb(color);
       });
+    });
+  });
+
+  describe('.equals', ()=> {
+    it('should compare colors based on name if created from name', ()=> {
+      const one = Color.fromName('BerkeleyBlue');
+      const two = Color.fromString('BerkeleyBlue');
+      const three = Color.fromString('Blue');
+      Assert(one.equals(two));
+      Assert(two.equals(one));
+      Assert(!one.equals(three));
+      Assert(!three.equals(two));
+    });
+
+    it('should compare colors created from different sources', ()=> {
+      const bb = Color.fromRgb([0, 50, 98]);
+      Assert(bb.equals('BerkeleyBlue'));
+      const mid = Color.fromHsl([180, 0.5, 0.5]);
+      Assert(!mid.equals(bb));
+      const bb2 = Color.fromHsl([
+        209.3877551020408,
+        1.0000000000000002,
+        0.19215686274509805
+      ]);
+      Assert(bb2.equals(bb));
     });
   });
 

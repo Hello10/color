@@ -311,6 +311,22 @@ function rgbToHsv(components) {
   });
 }
 
+
+
+var converters = {
+  __proto__: null,
+  colorToCss: colorToCss,
+  cssToColor: cssToColor,
+  hexToRgb: hexToRgb,
+  hslToHsv: hslToHsv,
+  hslToRgb: hslToRgb,
+  hsvToHsl: hsvToHsl,
+  hsvToRgb: hsvToRgb,
+  rgbToHex: rgbToHex,
+  rgbToHsl: rgbToHsl,
+  rgbToHsv: rgbToHsv
+};
+
 const NamedColors = {
   AbsoluteZero: [0, 72, 186],
   AcidGreen: [176, 191, 26],
@@ -1375,6 +1391,7 @@ class Color {
 
     this.components = components.map((value, index) => clips[index](value));
     this.mode = mode;
+    this.name = null;
   }
 
   static create(arg = {}) {
@@ -1402,6 +1419,10 @@ class Color {
 
     if (matchCssString(str)) {
       return this.fromCss(str);
+    }
+
+    if (this.nameExists(str)) {
+      return this.fromName(str);
     }
 
     throw new Error(`Invalid string format: ${str}`);
@@ -1501,7 +1522,9 @@ class Color {
     }
 
     const rgb = NamedColors[name];
-    return this.fromRgb(rgb);
+    const color = this.fromRgb(rgb);
+    color.name = name;
+    return color;
   }
 
   static names() {
@@ -1526,6 +1549,25 @@ class Color {
       mode: Mode.rgb,
       components
     });
+  }
+
+  equals(color) {
+    if (color.constructor !== this.constructor) {
+      color = this.constructor.create(color);
+    }
+
+    if (color.name && this.name && color.name === this.name) {
+      return true;
+    }
+
+    if (color.mode === this.mode) {
+      const components = color.components.slice(0, 3);
+      return components.every((component, i) => {
+        return component === this.components[i];
+      });
+    }
+
+    return color.hex6 === this.hex6;
   }
 
   shade(factor) {
@@ -2042,6 +2084,7 @@ class Color {
 
 }
 
+Color.converters = converters;
+
 export default Color;
-export { Color, colorToCss, cssToColor, hexToRgb, hslToHsv, hslToRgb, hsvToHsl, hsvToRgb, rgbToHex, rgbToHsl, rgbToHsv };
 //# sourceMappingURL=index.esm.js.map

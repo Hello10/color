@@ -1,6 +1,8 @@
 const Assert = require('assert');
 const {rounder} = require('@hello10/util');
 
+const Color = require('../dist/index');
+
 const {
   colorToCss,
   cssToColor,
@@ -12,7 +14,7 @@ const {
   rgbToHex,
   rgbToHsl,
   rgbToHsv
-} = require('../dist/index');
+} = Color.converters;
 
 const round5 = rounder({decimals: 5});
 

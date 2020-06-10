@@ -1,8 +1,8 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@hello10/util')) :
-  typeof define === 'function' && define.amd ? define(['exports', '@hello10/util'], factory) :
-  (global = global || self, factory(global.color = {}, global.util));
-}(this, (function (exports, util) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@hello10/util')) :
+  typeof define === 'function' && define.amd ? define(['@hello10/util'], factory) :
+  (global = global || self, global.color = factory(global.util));
+}(this, (function (util) {
   const Mode = {
     rgb: 'rgb',
     hsv: 'hsv',
@@ -313,6 +313,22 @@
       mode: 'hsv'
     });
   }
+
+
+
+  var converters = {
+    __proto__: null,
+    colorToCss: colorToCss,
+    cssToColor: cssToColor,
+    hexToRgb: hexToRgb,
+    hslToHsv: hslToHsv,
+    hslToRgb: hslToRgb,
+    hsvToHsl: hsvToHsl,
+    hsvToRgb: hsvToRgb,
+    rgbToHex: rgbToHex,
+    rgbToHsl: rgbToHsl,
+    rgbToHsv: rgbToHsv
+  };
 
   const NamedColors = {
     AbsoluteZero: [0, 72, 186],
@@ -1378,6 +1394,7 @@
 
       this.components = components.map((value, index) => clips[index](value));
       this.mode = mode;
+      this.name = null;
     }
 
     static create(arg = {}) {
@@ -1405,6 +1422,10 @@
 
       if (matchCssString(str)) {
         return this.fromCss(str);
+      }
+
+      if (this.nameExists(str)) {
+        return this.fromName(str);
       }
 
       throw new Error(`Invalid string format: ${str}`);
@@ -1504,7 +1525,9 @@
       }
 
       const rgb = NamedColors[name];
-      return this.fromRgb(rgb);
+      const color = this.fromRgb(rgb);
+      color.name = name;
+      return color;
     }
 
     static names() {
@@ -1529,6 +1552,25 @@
         mode: Mode.rgb,
         components
       });
+    }
+
+    equals(color) {
+      if (color.constructor !== this.constructor) {
+        color = this.constructor.create(color);
+      }
+
+      if (color.name && this.name && color.name === this.name) {
+        return true;
+      }
+
+      if (color.mode === this.mode) {
+        const components = color.components.slice(0, 3);
+        return components.every((component, i) => {
+          return component === this.components[i];
+        });
+      }
+
+      return color.hex6 === this.hex6;
     }
 
     shade(factor) {
@@ -2045,18 +2087,9 @@
 
   }
 
-  exports.Color = Color;
-  exports.colorToCss = colorToCss;
-  exports.cssToColor = cssToColor;
-  exports.default = Color;
-  exports.hexToRgb = hexToRgb;
-  exports.hslToHsv = hslToHsv;
-  exports.hslToRgb = hslToRgb;
-  exports.hsvToHsl = hsvToHsl;
-  exports.hsvToRgb = hsvToRgb;
-  exports.rgbToHex = rgbToHex;
-  exports.rgbToHsl = rgbToHsl;
-  exports.rgbToHsv = rgbToHsv;
+  Color.converters = converters;
+
+  return Color;
 
 })));
 //# sourceMappingURL=index.umd.js.map
