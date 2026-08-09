@@ -1,0 +1,21 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.5.7/schema.json",
+	"extends": ["@hello10/config-biome/base"],
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"overrides": [
+		{
+			"includes": ["**/test/**", "**/*.test.*"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noNonNullAssertion": "off"
+					}
+				}
+			}
+		}
+	]
+}

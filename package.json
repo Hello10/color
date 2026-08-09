@@ -1,34 +1,66 @@
 {
-  "name": "@hello10/color",
-  "version": "1.1.1",
-  "description": "Color stuff",
-  "main": "dist/index.js",
-  "source": "src/index.js",
-  "license": "MIT",
-  "author": {
-    "name": "Stephen Handley",
-    "email": "stephen@hello10.com",
-    "url": "https://hello10.com"
-  },
-  "scripts": {
-    "build": "microbundle --target node",
-    "clean": "rm -rf node_modules && rm -rf dist",
-    "dev": "microbundle watch --target node",
-    "lint": "eslint ./src",
-    "test": "yarn nyc mocha --ui bdd **/*.test.js"
-  },
-  "dependencies": {
-    "@hello10/util": "1.5.0"
-  },
-  "devDependencies": {
-    "@hello10/eslint-config": "1.0.2",
-    "babel-eslint": "10.1.0",
-    "eslint": "6.8.0",
-    "eslint-config-airbnb-base": "14.1.0",
-    "eslint-plugin-import": "2.20.2",
-    "eslint-plugin-promise": "4.2.1",
-    "microbundle": "0.12.0",
-    "mocha": "7.1.2",
-    "nyc": "15.0.1"
-  }
+	"name": "@hello10/color",
+	"version": "2.0.0",
+	"description": "Color class and conversion utilities — rgb / hsl / hsv / hex / css / named colors",
+	"license": "MIT",
+	"type": "module",
+	"author": {
+		"name": "Stephen Handley",
+		"email": "stephen@hello10.com",
+		"url": "https://hello10.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Hello10/color.git"
+	},
+	"keywords": [
+		"color",
+		"rgb",
+		"hsl",
+		"hsv",
+		"hex",
+		"css",
+		"named-colors"
+	],
+	"sideEffects": false,
+	"files": [
+		"dist"
+	],
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		}
+	},
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"scripts": {
+		"build": "tsup",
+		"dev": "tsup --watch",
+		"test": "vitest run",
+		"typecheck": "tsc --noEmit",
+		"lint": "biome check .",
+		"format": "biome format --write .",
+		"fix": "biome check --write .",
+		"verify": "pnpm run build && pnpm run typecheck && pnpm run test && pnpm run lint",
+		"prepublishOnly": "pnpm run build",
+		"clean": "rm -rf dist node_modules"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"dependencies": {
+		"@hello10/etc": "^1.0.0"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.5.7",
+		"@hello10/config-biome": "^1.0.0",
+		"@hello10/config-typescript": "^1.0.0",
+		"@types/node": "^24.3.0",
+		"tsup": "^8.5.0",
+		"typescript": "^5.9.2",
+		"vitest": "^3.2.4"
+	},
+	"packageManager": "pnpm@11.20.0"
 }

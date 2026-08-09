@@ -1,4 +1,8 @@
-node_modules
 .DS_Store
+node_modules
+dist
+*.tsbuildinfo
+coverage
+.vitest
 .cache
 .nyc_output
