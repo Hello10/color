@@ -10,7 +10,8 @@
 		"noImplicitOverride": true,
 		"noFallthroughCasesInSwitch": true,
 		"rootDir": ".",
-		"outDir": "dist"
+		"outDir": "dist",
+		"ignoreDeprecations": "6.0"
 	},
 	"include": ["src", "test"]
 }

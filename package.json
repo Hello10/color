@@ -54,13 +54,13 @@
 		"@hello10/etc": "^1.0.0"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.5.7",
+		"@biomejs/biome": "^2.5.8",
 		"@hello10/config-biome": "^1.0.0",
 		"@hello10/config-typescript": "^1.0.0",
-		"@types/node": "^24.3.0",
-		"tsup": "^8.5.0",
-		"typescript": "^5.9.2",
-		"vitest": "^3.2.4"
+		"@types/node": "^26.2.0",
+		"tsup": "^8.5.1",
+		"typescript": "^6.0.3",
+		"vitest": "^4.1.10"
 	},
 	"packageManager": "pnpm@11.20.0"
 }
